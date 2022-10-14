@@ -1,10 +1,11 @@
+using Concepts.Employees;
 using Fundamentals;
 
 namespace Domain.Employees;
 
 public class RegisterEmployee : ICommand
 {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string SocialSecurityNumber { get; set; } = string.Empty;
+    public FirstName FirstName { get; set; } = new(string.Empty);
+    public LastName LastName { get; set; } = new(string.Empty);
+    public SocialSecurityNumber SocialSecurityNumber { get; set; } = new(string.Empty);
 }

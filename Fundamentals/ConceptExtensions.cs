@@ -2,6 +2,11 @@ namespace Fundamentals;
 
 public static class ConceptExtensions
 {
+    public static bool IsPIIConcept(this Type objectType)
+    {
+        return objectType.IsDerivedFromOpenGeneric(typeof(PIIConceptAs<>));
+    }
+
     public static bool IsConcept(this Type objectType)
     {
         return objectType.IsDerivedFromOpenGeneric(typeof(ConceptAs<>));
