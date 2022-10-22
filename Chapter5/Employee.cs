@@ -2,7 +2,7 @@ using Fundamentals;
 
 namespace Main;
 
-public class RegisterEmployee
+public class Employee
 {
     [PersonalIdentifiableInformation("Employment records")]
     public string FirstName { get; set; } = string.Empty;
