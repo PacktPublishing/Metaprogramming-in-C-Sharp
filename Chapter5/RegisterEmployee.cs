@@ -4,12 +4,12 @@ namespace Main;
 
 public class RegisterEmployee
 {
-    [PersonalIdentifiableInformation]
+    [PersonalIdentifiableInformation("Employment records")]
     public string FirstName { get; set; } = string.Empty;
 
-    [PersonalIdentifiableInformation]
+    [PersonalIdentifiableInformation("Employment records")]
     public string LastName { get; set; } = string.Empty;
 
-    [PersonalIdentifiableInformation]
+    [PersonalIdentifiableInformation("Uniquely identifies the employee")]
     public string SocialSecurityNumber { get; set; } = string.Empty;
 }
