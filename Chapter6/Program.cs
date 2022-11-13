@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 using Chapter6;
 
-var type = NotifyingObjectWeaver.GetProxyType<Employee>();
+var type = NotifyingObjectWeaver.GetProxyType<Person>();
 Console.WriteLine($"Type name : {type}");
 
 var instance = (Activator.CreateInstance(type) as INotifyPropertyChanged)!;
 instance.PropertyChanged += (sender, e) => Console.WriteLine($"{e.PropertyName} changed");
 
-var instanceAsViewModel = (instance as Employee)!;
+var instanceAsViewModel = (instance as Person)!;
 instanceAsViewModel.FirstName = "John";

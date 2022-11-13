@@ -1,6 +1,6 @@
 namespace Chapter6;
 
-public class Employee
+public class Person
 {
     [NotifyChangesFor(nameof(FullName))]
     public virtual string FirstName { get; set; } = string.Empty;
