@@ -90,7 +90,6 @@ public static class NotifyingObjectWeaver
 
             var toStringBuilder = newToStringMethod.GetILGenerator();
             toStringBuilder.DeclareLocal(typeof(string));
-            toStringBuilder.Emit(OpCodes.Nop);
             toStringBuilder.Emit(OpCodes.Ldstr, fullName);
             toStringBuilder.Emit(OpCodes.Stloc_0);
             toStringBuilder.Emit(OpCodes.Ldloc_0);
@@ -121,9 +120,6 @@ public static class NotifyingObjectWeaver
                 constructorGenerator.Emit(OpCodes.Ldarg, index + 1);
             }
             constructorGenerator.Emit(OpCodes.Call, constructor);
-            constructorGenerator.Emit(OpCodes.Nop);
-            constructorGenerator.Emit(OpCodes.Nop);
-            constructorGenerator.Emit(OpCodes.Nop);
             constructorGenerator.Emit(OpCodes.Ret);
         }
     }
@@ -163,7 +159,6 @@ public static class NotifyingObjectWeaver
         var setMethodGenerator = setMethodBuilder.GetILGenerator();
         var propertiesToNotifyFor = GetPropertiesToNotifyFor(property);
 
-        setMethodGenerator.Emit(OpCodes.Nop);
         setMethodGenerator.Emit(OpCodes.Ldarg_0);
         setMethodGenerator.Emit(OpCodes.Ldarg_1);
         setMethodGenerator.Emit(OpCodes.Call, setMethodToOverride);
@@ -175,7 +170,6 @@ public static class NotifyingObjectWeaver
             setMethodGenerator.Emit(OpCodes.Call, onPropertyChangedMethodBuilder);
         }
 
-        setMethodGenerator.Emit(OpCodes.Nop);
         setMethodGenerator.Emit(OpCodes.Ret);
         typeBuilder.DefineMethodOverride(setMethodBuilder, setMethodToOverride);
     }
@@ -202,7 +196,6 @@ public static class NotifyingObjectWeaver
         var label = getMethodGenerator.DefineLabel();
 
         getMethodGenerator.DeclareLocal(property.PropertyType);
-        getMethodGenerator.Emit(OpCodes.Nop);
         getMethodGenerator.Emit(OpCodes.Ldarg_0);
         getMethodGenerator.Emit(OpCodes.Call, getMethodToOverride);
         getMethodGenerator.Emit(OpCodes.Stloc_0);
@@ -280,7 +273,6 @@ public static class NotifyingObjectWeaver
         onPropertyChangedMethodGenerator.DeclareLocal(typeof(PropertyChangedEventArgs));
         onPropertyChangedMethodGenerator.DeclareLocal(typeof(bool));
         onPropertyChangedMethodGenerator.DeclareLocal(typeof(object[]));
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
 
         // if( null != PropertyChanged )
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldnull);
@@ -292,24 +284,19 @@ public static class NotifyingObjectWeaver
         onPropertyChangedMethodGenerator.Emit(OpCodes.Brtrue_S, propertyChangedNullLabel);
 
         // args = new PropertyChangedEventArgs()
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_1);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Newobj, propertyChangedEventArgsType.GetConstructor(new[] { typeof(string) })!);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Stloc_0);
 
         // Invoke
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_0);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldfld, propertyChangedFieldBuilder);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_0);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldloc_0);
         onPropertyChangedMethodGenerator.EmitCall(OpCodes.Callvirt, invokeMethod, null);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Br_S, doneLabel);
 
         onPropertyChangedMethodGenerator.MarkLabel(propertyChangedNullLabel);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Nop);
         onPropertyChangedMethodGenerator.MarkLabel(doneLabel);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ret);
         return onPropertyChangedMethodBuilder;
