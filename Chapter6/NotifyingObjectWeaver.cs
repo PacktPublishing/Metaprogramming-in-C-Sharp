@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Xml.Serialization;
 
 namespace Chapter6;
 
@@ -10,7 +9,7 @@ public static class NotifyingObjectWeaver
 {
     const string DynamicAssemblyName = "Dynamic Assembly";
     const string DynamicModuleName = "Dynamic Module";
-    const string PropertyChangedEventName = "PropertyChanged";
+    const string PropertyChangedEventName = nameof(INotifyPropertyChanged.PropertyChanged);
     const string OnPropertyChangedMethodName = "OnPropertyChanged";
     static readonly Type VoidType = typeof(void);
     static readonly Type DelegateType = typeof(Delegate);
@@ -33,11 +32,6 @@ public static class NotifyingObjectWeaver
         var assemblyName = new AssemblyName(dynamicAssemblyName);
         DynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
         DynamicModule = DynamicAssembly.DefineDynamicModule(dynamicModuleName);
-    }
-
-    public static void ClearTypeCache()
-    {
-        Proxies.Clear();
     }
 
     public static Type GetProxyType<T>()
@@ -303,7 +297,7 @@ public static class NotifyingObjectWeaver
     static TypeBuilder DefineType(Type type)
     {
         var name = CreateUniqueName(type.Name);
-        var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Class | TypeAttributes.Serializable);
+        var typeBuilder = DynamicModule.DefineType(name, TypeAttributes.Public | TypeAttributes.Class);
 
         AddInterfacesFromBaseType(type, typeBuilder);
 
@@ -325,6 +319,6 @@ public static class NotifyingObjectWeaver
     {
         var uid = Guid.NewGuid().ToString();
         uid = uid.Replace('-', '_');
-        return string.Format("{0}{1}", prefix, uid);
+        return $"{prefix}{uid}";
     }
 }
