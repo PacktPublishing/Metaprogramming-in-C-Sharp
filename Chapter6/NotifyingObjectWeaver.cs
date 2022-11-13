@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace Chapter6;
 
-public class NotifyingObjectWeaver
+public static class NotifyingObjectWeaver
 {
     const string DynamicAssemblyName = "Dynamic Assembly";
     const string DynamicModuleName = "Dynamic Module";
@@ -330,8 +330,7 @@ public class NotifyingObjectWeaver
 
     static void AddInterfacesFromBaseType(Type type, TypeBuilder typeBuilder)
     {
-        var interfaces = type.GetInterfaces();
-        foreach (var interfaceType in interfaces)
+        foreach (var interfaceType in type.GetInterfaces())
         {
             typeBuilder.AddInterfaceImplementation(interfaceType);
         }
@@ -341,7 +340,6 @@ public class NotifyingObjectWeaver
     {
         var uid = Guid.NewGuid().ToString();
         uid = uid.Replace('-', '_');
-        var name = string.Format("{0}{1}", prefix, uid);
-        return name;
+        return string.Format("{0}{1}", prefix, uid);
     }
 }
