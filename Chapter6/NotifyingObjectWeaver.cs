@@ -279,8 +279,6 @@ public static class NotifyingObjectWeaver
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_0);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldfld, propertyChangedFieldBuilder);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ceq);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Stloc_1);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Ldloc_1);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Brtrue_S, propertyChangedNullLabel);
 
         // args = new PropertyChangedEventArgs()
