@@ -40,13 +40,13 @@ public class NotifyingObjectWeaver
         Proxies.Clear();
     }
 
-    public Type GetProxyType<T>()
+    public static Type GetProxyType<T>()
     {
         var type = typeof(T);
         return GetProxyType(type);
     }
 
-    public Type GetProxyType(Type type)
+    public static Type GetProxyType(Type type)
     {
         Type proxyType;
         if (Proxies.ContainsKey(type))
@@ -66,9 +66,6 @@ public class NotifyingObjectWeaver
     {
         var typeBuilder = DefineType(type);
         var eventHandlerType = typeof(PropertyChangedEventHandler);
-
-        AddAttributesToType(type, typeBuilder);
-
         var propertyChangedFieldBuilder = typeBuilder.DefineField(PropertyChangedEventName, eventHandlerType, FieldAttributes.Private);
 
         DefineConstructorIfNoDefaultConstructorOnBaseType(type, typeBuilder);
@@ -81,39 +78,6 @@ public class NotifyingObjectWeaver
 
         return typeBuilder.CreateType()!;
     }
-
-    static void AddAttributesToType(Type type, TypeBuilder typeBuilder)
-    {
-        AddAttributeToType<XmlRootAttribute>(typeBuilder,
-            new Dictionary<string, object>() { { "ElementName", type.Name } });
-    }
-
-    static void AddAttributeToType<T>(TypeBuilder typeBuilder, IDictionary<string, object> propertiesWithValues)
-        where T : Attribute
-    {
-        var attributeType = typeof(T);
-        var constructor = attributeType.GetConstructor(Array.Empty<Type>())!;
-
-        var properties = new List<PropertyInfo>();
-        var values = new List<object>();
-
-        foreach (var propertyName in propertiesWithValues.Keys)
-        {
-            var property = attributeType.GetProperty(propertyName);
-            properties.Add(property!);
-            values.Add(propertiesWithValues[propertyName]);
-        }
-
-        var attributeBuilder =
-            new CustomAttributeBuilder(
-                constructor,
-                Array.Empty<object>(),
-                properties.ToArray(),
-                values.ToArray());
-
-        typeBuilder.SetCustomAttribute(attributeBuilder);
-    }
-
 
     static void OverrideToStringIfNotOverriddenInBaseType(Type type, TypeBuilder typeBuilder)
     {
@@ -218,8 +182,10 @@ public class NotifyingObjectWeaver
 
     static string[] GetPropertiesToNotifyFor(PropertyInfo property)
     {
-        var properties = new List<string>();
-        properties.Add(property.Name);
+        var properties = new List<string>
+        {
+            property.Name
+        };
 
         foreach (var attribute in (NotifyChangesForAttribute[])property.GetCustomAttributes(typeof(NotifyChangesForAttribute), true))
         {
