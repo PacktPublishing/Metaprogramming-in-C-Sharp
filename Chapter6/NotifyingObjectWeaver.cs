@@ -222,7 +222,7 @@ public static class NotifyingObjectWeaver
         removeMethodGenerator.Emit(OpCodes.Castclass, eventHandlerType);
         removeMethodGenerator.Emit(OpCodes.Stfld, fieldBuilder);
         removeMethodGenerator.Emit(OpCodes.Ret);
-        eventBuilder.SetAddOnMethod(removeMethodBuilder);
+        eventBuilder.SetRemoveOnMethod(removeMethodBuilder);
     }
 
     static void DefineAddMethodForEvent(TypeBuilder typeBuilder, Type eventHandlerType, FieldBuilder fieldBuilder, EventBuilder eventBuilder)
