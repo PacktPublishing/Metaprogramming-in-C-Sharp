@@ -244,31 +244,22 @@ public static class NotifyingObjectWeaver
         eventBuilder.SetAddOnMethod(addMethodBuilder);
     }
 
-    static MethodInfo? GetMethodInfoFromType<T>(Expression<Action<T>> expression)
-    {
-        var methodCallExpresion = expression.Body as MethodCallExpression;
-        return methodCallExpresion?.Method;
-    }
 
     static MethodBuilder DefineOnPropertyChangedMethod(TypeBuilder typeBuilder, FieldBuilder propertyChangedFieldBuilder)
     {
-        var propertyChangedEventArgsType = typeof(PropertyChangedEventArgs);
+        
 
         var onPropertyChangedMethodBuilder = typeBuilder.DefineMethod(OnPropertyChangedMethodName, OnPropertyChangedMethodAttributes, VoidType,
                                                                       new[] { typeof(string) });
         var onPropertyChangedMethodGenerator = onPropertyChangedMethodBuilder.GetILGenerator();
 
-        var invokeMethod = GetMethodInfoFromType<PropertyChangedEventHandler>(e => e.Invoke(null, null!))!;
+        var invokeMethod = typeof(PropertyChangedEventHandler).GetMethod(nameof(PropertyChangedEventHandler.Invoke))!;
 
-        var propertyChangedNullLabel = onPropertyChangedMethodGenerator.DefineLabel();
-        var checkAccessFalseLabel = onPropertyChangedMethodGenerator.DefineLabel();
-        var doneLabel = onPropertyChangedMethodGenerator.DefineLabel();
-
-        onPropertyChangedMethodGenerator.DeclareLocal(typeof(PropertyChangedEventArgs));
-        onPropertyChangedMethodGenerator.DeclareLocal(typeof(bool));
-        onPropertyChangedMethodGenerator.DeclareLocal(typeof(object[]));
+        var propertyChangedEventArgsType = typeof(PropertyChangedEventArgs);
+        onPropertyChangedMethodGenerator.DeclareLocal(propertyChangedEventArgsType);
 
         // if( null != PropertyChanged )
+        var propertyChangedNullLabel = onPropertyChangedMethodGenerator.DefineLabel();
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldnull);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_0);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldfld, propertyChangedFieldBuilder);
@@ -286,10 +277,8 @@ public static class NotifyingObjectWeaver
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldarg_0);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ldloc_0);
         onPropertyChangedMethodGenerator.EmitCall(OpCodes.Callvirt, invokeMethod, null);
-        onPropertyChangedMethodGenerator.Emit(OpCodes.Br_S, doneLabel);
 
         onPropertyChangedMethodGenerator.MarkLabel(propertyChangedNullLabel);
-        onPropertyChangedMethodGenerator.MarkLabel(doneLabel);
         onPropertyChangedMethodGenerator.Emit(OpCodes.Ret);
         return onPropertyChangedMethodBuilder;
     }
