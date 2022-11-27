@@ -3,6 +3,7 @@
         "Brtrue",
         "Callvirt",
         "Castclass",
+        "Cratis",
         "Expando",
         "inheritdoc",
         "Ldarg",
