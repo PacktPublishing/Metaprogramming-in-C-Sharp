@@ -3,7 +3,6 @@
 
 using System.Linq.Expressions;
 using System.Reflection;
-using Aksio.Cratis.Properties;
 
 namespace Fundamentals;
 

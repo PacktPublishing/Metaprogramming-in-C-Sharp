@@ -3,6 +3,8 @@
         "Brtrue",
         "Callvirt",
         "Castclass",
+        "Expando",
+        "inheritdoc",
         "Ldarg",
         "Ldfld",
         "Ldloc",
@@ -11,6 +13,7 @@
         "Newobj",
         "Stfld",
         "Stloc",
+        "typeparam",
         "Vtable"
     ]
 }
