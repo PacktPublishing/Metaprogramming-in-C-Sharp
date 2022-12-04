@@ -3,7 +3,7 @@
 
 namespace Fundamentals;
 
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Property | AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
 public class PersonalIdentifiableInformationAttribute : Attribute
 {
     public PersonalIdentifiableInformationAttribute(string reasonForCollecting = "")
