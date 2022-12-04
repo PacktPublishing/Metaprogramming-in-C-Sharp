@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Chapter6/bin/Debug/net6.0/Chapter6.dll",
+            "program": "${workspaceFolder}/Chapter7/bin/Debug/net6.0/Chapter7.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Chapter6",
             "stopAtEntry": false,
