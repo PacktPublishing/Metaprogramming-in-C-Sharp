@@ -48,5 +48,3 @@ Console.WriteLine(addExpression);
 Expression<Func<Employee, bool>> employeeFilter = (employee) => employee.FirstName == "Jane";
 
 Console.WriteLine(employeeFilter);
-
-Expression.
