@@ -1,0 +1,34 @@
+{
+    "property": "value",
+    "$in": [],
+    "complex_property_query": {
+        "$lt": 30,
+        "$gt": 30,
+        "$lte": 30,
+        "$gte": 30
+    },
+    "$or": [
+        {
+            "property": "value"
+        },
+        {
+            "otherProperty": {
+                "$lt": 30
+            }
+        }
+    ],
+    "$all": [
+        "item1",
+        "item2"
+    ],
+    "array.index": {
+        "$gt": 25
+    },
+    "array": {
+        "$size": 3
+    },
+    "item": null,
+    "someProperty": {
+        "$exists": false
+    }
+}

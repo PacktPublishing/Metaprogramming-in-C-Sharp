@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Chapter7/bin/Debug/net6.0/Chapter7.dll",
+            "program": "${workspaceFolder}/Chapter8/bin/Debug/net6.0/Chapter8.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Chapter6",
+            "cwd": "${workspaceFolder}/Chapter8",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
