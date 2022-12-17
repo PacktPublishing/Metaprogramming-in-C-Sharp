@@ -27,7 +27,7 @@ public static class QueryParser
                 _ => GetFilterExpression(property)
             };
 
-            if (currentExpression is not null)
+            if (currentExpression is not null && expression is not BinaryExpression)
             {
                 currentExpression = Expression.And(currentExpression, expression);
             }
