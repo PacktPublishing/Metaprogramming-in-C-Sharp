@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace Chapter8;
 
@@ -11,11 +10,11 @@ public static class QueryParser
     public static Expression<Func<IDictionary<string, object>, bool>> Parse(JsonDocument json)
     {
         var element = json.RootElement;
-        var query = NewMethod(element);
+        var query = GetQueryExpression(element);
         return Expression.Lambda<Func<IDictionary<string, object>, bool>>(query, _dictionaryParameter);
     }
 
-    static Expression NewMethod(JsonElement element)
+    static Expression GetQueryExpression(JsonElement element)
     {
         Expression? currentExpression = null;
 
@@ -25,7 +24,7 @@ public static class QueryParser
             {
                 "$or" => GetOrExpression(currentExpression!, property),
                 "$in" => Expression.Empty(),
-                _ => NewMethod1(GetGetValueExpression(property), property)
+                _ => GetFilterExpression(property)
             };
 
             if (currentExpression is not null)
@@ -45,28 +44,29 @@ public static class QueryParser
     {
         foreach (var element in property.Value.EnumerateArray())
         {
-            var elementExpression = NewMethod(element);
+            var elementExpression = GetQueryExpression(element);
             expression = Expression.Or(expression, elementExpression);
         }
 
         return expression;
     }
 
-    static Expression NewMethod1(Expression getValueExpression, JsonProperty property)
+    static Expression GetFilterExpression(JsonProperty property)
     {
         return property.Value.ValueKind switch
         {
-            JsonValueKind.Object => GetFilterExpression(getValueExpression, property),
-            _ => Expression.Equal(getValueExpression, GetValueConstantExpression(property))
+            JsonValueKind.Object => GetNestedFilterExpression(property),
+            _ => Expression.Equal(GetGetValueExpression(property, property), GetValueConstantExpression(property))
         };
     }
 
-    static Expression GetFilterExpression(Expression getValueExpression, JsonProperty property)
+    static Expression GetNestedFilterExpression(JsonProperty property)
     {
         Expression? currentExpression = null;
 
         foreach (var expressionProperty in property.Value.EnumerateObject())
         {
+            var getValueExpression = GetGetValueExpression(property, expressionProperty);
             var valueConstantExpression = GetValueConstantExpression(expressionProperty);
             Expression comparisonExpression = expressionProperty.Name switch
             {
@@ -90,9 +90,9 @@ public static class QueryParser
         return currentExpression ?? Expression.Empty();
     }
 
-    static Expression GetGetValueExpression(JsonProperty property)
+    static Expression GetGetValueExpression(JsonProperty parentProperty, JsonProperty property)
     {
-        var keyParam = Expression.Constant(property.Name);
+        var keyParam = Expression.Constant(parentProperty.Name);
         var indexer = typeof(IDictionary<string, object>).GetProperty("Item")!;
         var indexerExpr = Expression.Property(_dictionaryParameter, indexer, keyParam);
 
@@ -107,7 +107,7 @@ public static class QueryParser
     {
         return property.Value.ValueKind switch
         {
-            JsonValueKind.Number => Expression.Constant((object)property.Value.GetInt32()),
+            JsonValueKind.Number => Expression.Constant(property.Value.GetInt32()),
             JsonValueKind.String => Expression.Constant((object)property.Value.GetString()!),
             JsonValueKind.True or JsonValueKind.False => Expression.Constant((object)property.Value.GetBoolean()),
             _ => Expression.Empty()
