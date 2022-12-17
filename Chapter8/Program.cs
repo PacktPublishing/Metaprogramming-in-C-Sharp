@@ -27,7 +27,7 @@ var serializerOptions = new JsonSerializerOptions();
 serializerOptions.Converters.Add(new DictionaryStringObjectJsonConverter());
 var documents = JsonSerializer.Deserialize<IEnumerable<Dictionary<string, object>>>(documentsRaw, serializerOptions)!;
 
-var filtered = documents.Where(queryFunc);
+var filtered = documents.AsQueryable().Where(expression);
 foreach (var document in filtered)
 {
     Console.WriteLine(JsonSerializer.Serialize(document));
