@@ -1,3 +1,5 @@
 {
-    "Integer": 42
+    "Integer": {
+        "$gt": 42
+    }
 }
