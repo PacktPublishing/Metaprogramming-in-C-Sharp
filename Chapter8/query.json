@@ -1,10 +1,10 @@
 {
-    "Integer": {
-        "$gt": 42
+    "TheInteger": {
+        "$gte": 42
     },
     "$or": [
         {
-            "Integer": 42
+            "TheString": "Something"
         }
     ]
 }
