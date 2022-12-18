@@ -1,10 +1,10 @@
 {
-    "TheInteger": {
-        "$gte": 42
+    "Age": {
+        "$gte": 52
     },
     "$or": [
         {
-            "TheString": "Something"
+            "LastName": "Doe"
         }
     ]
 }
