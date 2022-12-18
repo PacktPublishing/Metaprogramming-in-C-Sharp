@@ -45,7 +45,7 @@ public static class QueryParser
         foreach (var element in property.Value.EnumerateArray())
         {
             var elementExpression = GetQueryExpression(element);
-            expression = Expression.Or(expression, elementExpression);
+            expression = Expression.OrElse(expression, elementExpression);
         }
 
         return expression;
@@ -56,7 +56,7 @@ public static class QueryParser
         return property.Value.ValueKind switch
         {
             JsonValueKind.Object => GetNestedFilterExpression(property),
-            _ => Expression.Equal(GetGetValueExpression(property, property), GetValueConstantExpression(property))
+            _ => Expression.Equal(GetLeftValueExpression(property, property), GetRightValueExpression(property))
         };
     }
 
@@ -66,8 +66,8 @@ public static class QueryParser
 
         foreach (var expressionProperty in property.Value.EnumerateObject())
         {
-            var getValueExpression = GetGetValueExpression(property, expressionProperty);
-            var valueConstantExpression = GetValueConstantExpression(expressionProperty);
+            var getValueExpression = GetLeftValueExpression(property, expressionProperty);
+            var valueConstantExpression = GetRightValueExpression(expressionProperty);
             Expression comparisonExpression = expressionProperty.Name switch
             {
                 "$lt" => Expression.LessThan(getValueExpression, valueConstantExpression),
@@ -90,7 +90,7 @@ public static class QueryParser
         return currentExpression ?? Expression.Empty();
     }
 
-    static Expression GetGetValueExpression(JsonProperty parentProperty, JsonProperty property)
+    static Expression GetLeftValueExpression(JsonProperty parentProperty, JsonProperty property)
     {
         var keyParam = Expression.Constant(parentProperty.Name);
         var indexer = typeof(IDictionary<string, object>).GetProperty("Item")!;
@@ -99,11 +99,13 @@ public static class QueryParser
         return property.Value.ValueKind switch
         {
             JsonValueKind.Number => Expression.Unbox(indexerExpr, typeof(int)),
+            JsonValueKind.String => Expression.TypeAs(indexerExpr, typeof(string)),
+            JsonValueKind.True or JsonValueKind.False => Expression.TypeAs(indexerExpr, typeof(bool)),
             _ => indexerExpr
         };
     }
 
-    static Expression GetValueConstantExpression(JsonProperty property)
+    static Expression GetRightValueExpression(JsonProperty property)
     {
         return property.Value.ValueKind switch
         {

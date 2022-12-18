@@ -20,7 +20,6 @@ Console.WriteLine(instance.StringProperty);
 var query = File.ReadAllText("query.json");
 var queryDocument = JsonDocument.Parse(query);
 var expression = QueryParser.Parse(queryDocument);
-var queryFunc = expression.Compile();
 
 var documentsRaw = File.ReadAllText("data.json");
 var serializerOptions = new JsonSerializerOptions();
