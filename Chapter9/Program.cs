@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Chapter9;
 using Microsoft.CSharp.RuntimeBinder;
 using NJsonSchema;
@@ -54,6 +55,6 @@ personInstance.FirstName = "Jane";
 Console.WriteLine($"LastName : '{personInstance.LastName}'");
 
 var dictionary = (Dictionary<string, object>)personInstance;
-Console.WriteLine(dictionary);
+Console.WriteLine(JsonSerializer.Serialize(dictionary));
 
-personInstance.Birthday = "1/1/2022";
+personInstance.LastName = 42;
