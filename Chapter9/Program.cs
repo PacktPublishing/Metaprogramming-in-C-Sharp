@@ -52,9 +52,11 @@ var personMetaObject = personInstance.GetMetaObject(Expression.Constant(personIn
 var personProperties = personMetaObject.GetDynamicMemberNames();
 Console.WriteLine(string.Join(',', personProperties));
 personInstance.FirstName = "Jane";
+Console.WriteLine($"FirstName : '{personInstance.FirstName}'");
 Console.WriteLine($"LastName : '{personInstance.LastName}'");
 
 var dictionary = (Dictionary<string, object>)personInstance;
 Console.WriteLine(JsonSerializer.Serialize(dictionary));
 
+// personInstance.FullName = "Jane Doe";
 personInstance.LastName = 42;
