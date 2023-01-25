@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 
 namespace Chapter10.Structured;
 

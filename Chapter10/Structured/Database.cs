@@ -4,7 +4,7 @@ namespace Chapter10.Structured;
 
 public class Database : IDatabase
 {
-    readonly static Dictionary<Type, string> _typeToCollectionName = new()
+    static readonly Dictionary<Type, string> _typeToCollectionName = new()
     {
         { typeof(User), "user" },
         { typeof(UserDetails), "user-details" }
