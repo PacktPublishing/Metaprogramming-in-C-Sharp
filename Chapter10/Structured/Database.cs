@@ -1,14 +1,10 @@
+using Humanizer;
 using MongoDB.Driver;
 
 namespace Chapter10.Structured;
 
 public class Database : IDatabase
 {
-    static readonly Dictionary<Type, string> _typeToCollectionName = new()
-    {
-        { typeof(User), "user" },
-        { typeof(UserDetails), "user-details" }
-    };
     readonly IMongoDatabase _mongoDatabase;
 
     public Database()
@@ -17,5 +13,5 @@ public class Database : IDatabase
         _mongoDatabase = client.GetDatabase("TheSystem");
     }
 
-    public IMongoCollection<T> GetCollectionFor<T>() => _mongoDatabase.GetCollection<T>(_typeToCollectionName[typeof(T)]);
+    public IMongoCollection<T> GetCollectionFor<T>() => _mongoDatabase.GetCollection<T>(typeof(T).Name.Pluralize());
 }
