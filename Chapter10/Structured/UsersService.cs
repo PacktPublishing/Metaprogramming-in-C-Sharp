@@ -1,5 +1,6 @@
 namespace Chapter10.Structured;
 
+[Singleton]
 public class UsersService : IUsersService
 {
     readonly IDatabase _database;

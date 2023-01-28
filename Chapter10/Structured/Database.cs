@@ -3,6 +3,7 @@ using MongoDB.Driver;
 
 namespace Chapter10.Structured;
 
+[Singleton]
 public class Database : IDatabase
 {
     readonly IMongoDatabase _mongoDatabase;
