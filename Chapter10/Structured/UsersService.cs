@@ -1,3 +1,5 @@
+using Fundamentals;
+
 namespace Chapter10.Structured;
 
 [Singleton]

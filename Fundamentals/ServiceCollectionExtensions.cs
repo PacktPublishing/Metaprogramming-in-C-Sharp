@@ -1,6 +1,6 @@
-using Fundamentals;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Chapter10;
+namespace Fundamentals;
 
 public static class ServiceCollectionExtensions
 {

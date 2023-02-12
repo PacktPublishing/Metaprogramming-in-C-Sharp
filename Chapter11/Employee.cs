@@ -1,6 +1,6 @@
 using Fundamentals.Compliance.GDPR;
 
-namespace Chapter5;
+namespace Chapter11;
 
 public class Employee
 {
