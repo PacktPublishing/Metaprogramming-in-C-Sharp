@@ -17,7 +17,6 @@ var host = Host.CreateDefaultBuilder()
 var complianceMetadataResolver = host.Services.GetRequiredService<IComplianceMetadataResolver>();
 
 var typeToCheck = typeof(Patient);
-
 Console.WriteLine($"Checking type for compliance rules: {typeToCheck.FullName}");
 
 if (complianceMetadataResolver.HasMetadataFor(typeToCheck))
@@ -31,7 +30,7 @@ if (complianceMetadataResolver.HasMetadataFor(typeToCheck))
 
 Console.WriteLine("");
 
-foreach (var property in typeof(Patient).GetProperties())
+foreach (var property in typeToCheck.GetProperties())
 {
     if (complianceMetadataResolver.HasMetadataFor(property))
     {

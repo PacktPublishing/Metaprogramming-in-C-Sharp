@@ -46,6 +46,7 @@ public static class ServiceCollectionExtensions
         types.All.Where(_ =>
             (_.Attributes & staticType) != staticType &&
             !_.IsInterface &&
+            !_.IsAbstract &&
             services.Any(s => s.ServiceType != _)).ToList().ForEach(_ =>
         {
             var __ = _.HasAttribute<SingletonAttribute>() ?
