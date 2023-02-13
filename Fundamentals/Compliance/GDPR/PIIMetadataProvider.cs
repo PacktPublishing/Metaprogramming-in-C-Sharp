@@ -38,6 +38,11 @@ public class PersonalIdentifiableInformationMetadataProvider : ICanProvideCompli
             throw new NoComplianceMetadataForProperty(property);
         }
 
-        return new ComplianceMetadata(ComplianceMetadataType.PII, property.GetComplianceMetadataDetails());
+        var details = property.GetComplianceMetadataDetails();
+        if (string.IsNullOrEmpty(details))
+        {
+            details = property.GetCustomAttribute<PersonalIdentifiableInformationAttribute>()!.ReasonForCollecting;
+        }
+        return new ComplianceMetadata(ComplianceMetadataType.PII, details);
     }
 }

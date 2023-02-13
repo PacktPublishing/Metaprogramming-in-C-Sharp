@@ -8,7 +8,7 @@
             "args": [
                 "build",
                 "--no-restore",
-                "${workspaceFolder}/Chapter10/Chapter10.csproj",
+                "${workspaceFolder}/Chapter11/Chapter11.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

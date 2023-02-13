@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fundamentals;
@@ -33,6 +35,23 @@ public static class ServiceCollectionExtensions
                 services.AddSingleton(interfaceToBind, conventionBasedType) :
                 services.AddTransient(interfaceToBind, conventionBasedType);
         }
+
+        return services;
+    }
+
+    public static IServiceCollection AddSelfBinding(this IServiceCollection services, ITypes types)
+    {
+        const TypeAttributes staticType = TypeAttributes.Abstract | TypeAttributes.Sealed;
+
+        types.All.Where(_ =>
+            (_.Attributes & staticType) != staticType &&
+            !_.IsInterface &&
+            services.Any(s => s.ServiceType != _)).ToList().ForEach(_ =>
+        {
+            var __ = _.HasAttribute<SingletonAttribute>() ?
+                services.AddSingleton(_, _) :
+                services.AddTransient(_, _);
+        });
 
         return services;
     }

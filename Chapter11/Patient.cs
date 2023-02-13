@@ -2,7 +2,8 @@ using Fundamentals.Compliance.GDPR;
 
 namespace Chapter11;
 
-public class Employee
+[Confidential]
+public class Patient
 {
     [PersonalIdentifiableInformation("Employment records")]
     public string FirstName { get; set; } = string.Empty;
@@ -12,4 +13,6 @@ public class Employee
 
     [PersonalIdentifiableInformation("Uniquely identifies the employee")]
     public string SocialSecurityNumber { get; set; } = string.Empty;
+
+    public IEnumerable<JournalEntry> JournalEntries { get; set; } = Enumerable.Empty<JournalEntry>();
 }
