@@ -1,12 +1,11 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fundamentals;
 
 public static class ServiceCollectionExtensions
 {
-    static readonly string[] _namespacesToIgnoreForSelfBinding = new[] { "System", "Microsoft", "Fundamentals" };
+    static readonly string[] _namespacesToIgnoreForSelfBinding = new[] { "System", "Microsoft" };
 
     public static IServiceCollection AddBindingsByConvention(this IServiceCollection services, ITypes types)
     {
@@ -52,6 +51,7 @@ public static class ServiceCollectionExtensions
             !ShouldIgnoreNamespace(_.Namespace ?? string.Empty) &&
             !HasConstructorWithUnresolvableParameters(_) &&
             !HasConstructorWithRecordTypes(_) &&
+            !_.IsAssignableTo(typeof(Exception)) &&
             services.Any(s => s.ServiceType != _)).ToList().ForEach(_ =>
         {
             var __ = _.HasAttribute<SingletonAttribute>() ?

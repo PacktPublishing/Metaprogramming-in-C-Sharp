@@ -1,4 +1,4 @@
-namespace Chapter12;
+namespace EventSourcing;
 
 public record EventContext(
     EventSourceId EventSourceId,

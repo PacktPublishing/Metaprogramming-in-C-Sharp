@@ -1,6 +1,6 @@
 using Fundamentals;
 
-namespace Chapter12;
+namespace EventSourcing;
 
 public record EventSequenceNumber(ulong Value) : ConceptAs<ulong>(Value)
 {

@@ -1,3 +1,3 @@
-namespace Chapter12;
+namespace EventSourcing;
 
 public interface IEvent { }

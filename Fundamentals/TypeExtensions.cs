@@ -19,7 +19,8 @@ public static class TypeExtensions
         typeof(DateTime),
         typeof(DateTimeOffset),
         typeof(TimeSpan),
-        typeof(Type)
+        typeof(Type),
+        typeof(object)
     };
 
     static readonly HashSet<Type> _numericTypes = new()
@@ -303,6 +304,9 @@ public static class TypeExtensions
     /// <returns>True if <see cref="Type"/> is a primitive type.</returns>
     public static bool IsAPrimitiveType(this Type type)
     {
+        if (type.HasElementType)
+            return type.GetElementType()!.IsAPrimitiveType();
+
         return type.GetTypeInfo().IsPrimitive
                 || type.IsNullable() || _additionalPrimitiveTypes.Contains(type);
     }

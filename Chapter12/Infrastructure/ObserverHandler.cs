@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Chapter12;
+namespace EventSourcing;
 
 public class ObserverHandler
 {

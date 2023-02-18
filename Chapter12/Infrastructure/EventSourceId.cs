@@ -1,6 +1,6 @@
 using Fundamentals;
 
-namespace Chapter12;
+namespace EventSourcing;
 
 public record EventSourceId(string Value) : ConceptAs<string>(Value)
 {
