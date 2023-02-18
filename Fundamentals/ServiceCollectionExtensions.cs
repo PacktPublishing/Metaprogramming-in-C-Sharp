@@ -6,6 +6,8 @@ namespace Fundamentals;
 
 public static class ServiceCollectionExtensions
 {
+    static readonly string[] _namespacesToIgnoreForSelfBinding = new[] { "System", "Microsoft", "Fundamentals" };
+
     public static IServiceCollection AddBindingsByConvention(this IServiceCollection services, ITypes types)
     {
         Func<Type, Type, bool> convention = (i, t) => i.Namespace == t.Namespace && i.Name == $"I{t.Name}";
@@ -47,6 +49,9 @@ public static class ServiceCollectionExtensions
             (_.Attributes & staticType) != staticType &&
             !_.IsInterface &&
             !_.IsAbstract &&
+            !ShouldIgnoreNamespace(_.Namespace ?? string.Empty) &&
+            !HasConstructorWithUnresolvableParameters(_) &&
+            !HasConstructorWithRecordTypes(_) &&
             services.Any(s => s.ServiceType != _)).ToList().ForEach(_ =>
         {
             var __ = _.HasAttribute<SingletonAttribute>() ?
@@ -56,4 +61,13 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    static bool ShouldIgnoreNamespace(string namespaceToCheck) =>
+        _namespacesToIgnoreForSelfBinding.Any(n => namespaceToCheck.StartsWith(n));
+
+    static bool HasConstructorWithUnresolvableParameters(Type type) =>
+        type.GetConstructors().Any(_ => _.GetParameters().Any(p => p.ParameterType.IsAPrimitiveType()));
+
+    static bool HasConstructorWithRecordTypes(Type type) =>
+        type.GetConstructors().Any(_ => _.GetParameters().Any(p => p.ParameterType.IsRecord()));
 }

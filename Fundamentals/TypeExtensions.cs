@@ -18,7 +18,8 @@ public static class TypeExtensions
         typeof(Guid),
         typeof(DateTime),
         typeof(DateTimeOffset),
-        typeof(TimeSpan)
+        typeof(TimeSpan),
+        typeof(Type)
     };
 
     static readonly HashSet<Type> _numericTypes = new()
