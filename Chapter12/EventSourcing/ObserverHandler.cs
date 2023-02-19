@@ -21,10 +21,9 @@ public class ObserverHandler
                                         .ToDictionary(_ => _.Key, _ => _.ToArray().AsEnumerable());
     }
 
-    /// <inheritdoc/>
-    public async Task OnNext(AppendedEvent @event)
+    public async Task OnNext(IEvent @event, EventContext context)
     {
-        var eventType = @event.Content.GetType();
+        var eventType = @event.GetType();
 
         if (_methodsByEventType.ContainsKey(eventType))
         {
@@ -36,11 +35,11 @@ public class ObserverHandler
 
                 if (parameters.Length == 2)
                 {
-                    returnValue = (Task)method.Invoke(actualObserver, new object[] { @event.Content, @event.Context })!;
+                    returnValue = (Task)method.Invoke(actualObserver, new object[] { @event, context })!;
                 }
                 else
                 {
-                    returnValue = (Task)method.Invoke(actualObserver, new object[] { @event.Content })!;
+                    returnValue = (Task)method.Invoke(actualObserver, new object[] { @event })!;
                 }
 
                 if (returnValue is not null) await returnValue;

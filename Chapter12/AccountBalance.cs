@@ -2,6 +2,7 @@ using EventSourcing;
 
 namespace Chapter12;
 
+[Observer]
 public class AccountBalance
 {
     public Task DepositPerformed(DepositPerformed @event, EventContext context)

@@ -12,9 +12,9 @@ public class EventLog : IEventLog
 
     public async Task Append(EventSourceId eventSourceId, IEvent @event)
     {
-        await _observers.OnNext(new(
-            new EventContext(eventSourceId, _sequenceNumber, DateTimeOffset.UtcNow),
-            @event));
+        await _observers.OnNext(
+            @event,
+            new EventContext(eventSourceId, _sequenceNumber, DateTimeOffset.UtcNow));
         _sequenceNumber++;
     }
 }

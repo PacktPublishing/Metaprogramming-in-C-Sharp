@@ -18,10 +18,10 @@ public class Observers : IObservers
                             });
     }
 
-    public Task OnNext(AppendedEvent @event)
+    public Task OnNext(IEvent @event, EventContext context)
     {
-        var tasks = _handlers.Where(_ => _.EventTypes.Contains(@event.Content.GetType()))
-                            .Select(_ => _.OnNext(@event));
+        var tasks = _handlers.Where(_ => _.EventTypes.Contains(@event.GetType()))
+                            .Select(_ => _.OnNext(@event, context));
         return Task.WhenAll(tasks);
     }
 }
