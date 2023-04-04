@@ -11,6 +11,9 @@ public class DefaultInstaller : IWindsorInstaller
 {
     public void Install(IWindsorContainer container, IConfigurationStore store)
     {
+        container.Register(Component.For<InterceptorSelector>());
+        container.Register(Component.For<AuthorizationInterceptor>());
+
         container.Register(
             Component.For<IAuthenticator>()
                 .ImplementedBy<Authenticator>()
@@ -29,6 +32,8 @@ public class DefaultInstaller : IWindsorInstaller
                     .Component<Authorizer>()
                     .Component<Authenticator>())
                 .Interceptors<LoggingInterceptor>()
+                .Interceptors<AuthorizationInterceptor>()
+                .SelectInterceptorsWith(s => s.Service<InterceptorSelector>())
                 .LifestyleTransient());
 
         container.Register(
@@ -41,19 +46,21 @@ public class DefaultInstaller : IWindsorInstaller
                     proxyGenerationOptions.AddMixinInstance(container.Resolve<IAuthenticator>());
                     var logger = container.Resolve<ILogger<UsersService>>();
                     proxyGenerationOptions.AddMixinInstance(new UsersService(logger));
-                    var usersServiceComposition = (proxyGenerator.CreateClassProxyWithTarget(
+                    return (proxyGenerator.CreateClassProxyWithTarget(
                         typeof(object),
                         new[] { typeof(IUsersServiceComposition) },
                         new object(),
                         proxyGenerationOptions) as IUsersServiceComposition)!;
-                    return usersServiceComposition;
                 }));
 
         container.Register(Component.For<LoggingInterceptor>());
         container.Register(Classes.FromAssemblyInThisApplication(Assembly.GetEntryAssembly())
             .Pick()
             .WithService.DefaultInterfaces()
-            .Configure(_ => _.Interceptors<LoggingInterceptor>())
+            .Configure(_ => _
+                .Interceptors<LoggingInterceptor>()
+                .Interceptors<AuthorizationInterceptor>()
+                .SelectInterceptorsWith(s => s.Service<InterceptorSelector>()))
             .LifestyleTransient());
     }
 }

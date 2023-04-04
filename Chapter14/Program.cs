@@ -3,6 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Chapter14;
+using Chapter14.Todo;
 using Microsoft.Extensions.Logging;
 
 
@@ -42,5 +43,8 @@ authenticated = composition.Authenticate("jane@doe.io", "Password1");
 authorized = composition.IsAuthorized("jane@doe.io", "Some Action");
 Console.WriteLine($"Authenticated: {authenticated}");
 Console.WriteLine($"Authorized: {authorized}");
+
+var todo = container.Resolve<ITodoService>();
+todo.Add("Buy milk");
 
 Console.ReadLine();
