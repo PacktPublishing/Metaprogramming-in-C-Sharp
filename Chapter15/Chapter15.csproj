@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildThisFileDirectory)../Roslyn/Roslyn.props"/>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Roslyn\Roslyn.csproj" OutputItemType="Analyzer" Private="true"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.3.0" />
+    </ItemGroup>
+
+</Project>

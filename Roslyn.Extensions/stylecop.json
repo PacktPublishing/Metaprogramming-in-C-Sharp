@@ -1,0 +1,30 @@
+{
+    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+    "settings": {
+        "indentation": {
+            "useTabs": false,
+            "indentationSize": 4,
+            "tabSize": 4
+        },
+        "orderingRules": {
+            "systemUsingDirectivesFirst": true,
+            "usingDirectivesPlacement": "outsideNamespace",
+            "blankLinesBetweenUsingGroups": "omit"
+        },
+        "documentationRules": {
+            "xmlHeader": false,
+            "documentInterfaces": true,
+            "documentExposedElements": true,
+            "documentationCulture": "en-US",
+            "documentInternalElements": false,
+            "documentPrivateElements": false,
+            "documentPrivateFields": false,
+            "fileNamingConvention": "stylecop",
+            "companyName": "Packt Publishing",
+            "variables": {  
+                "licenseName": "MIT",
+                "licenseFile": "LICENSE"
+            }
+        }
+    }
+}
