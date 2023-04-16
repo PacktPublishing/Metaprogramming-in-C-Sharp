@@ -30,7 +30,7 @@
     <IncludeSource>True</IncludeSource>
     <!-- Debuggability - End -->
 
-    <StyleCopTreatErrorsAsWarnings>True</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>

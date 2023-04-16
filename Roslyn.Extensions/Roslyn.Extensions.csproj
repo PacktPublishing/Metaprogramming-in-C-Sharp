@@ -6,13 +6,6 @@
         <Nullable>enable</Nullable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 
-        <!--
-        <IsRoslynComponent>true</IsRoslynComponent>
-        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-
-        <AssemblyName>Roslyn.Extensions</AssemblyName>
-
         <Copyright>Packt Publishing</Copyright>
         <Authors>all contributors</Authors>
         <RepositoryUrl>https://github.com/PacktPublishing/Metaprogramming-in-C-Sharp</RepositoryUrl>
@@ -26,60 +19,36 @@
         <NoPackageAnalysis>true</NoPackageAnalysis>
         <NoDefaultExcludes>true</NoDefaultExcludes>
         <IncludeSymbols>true</IncludeSymbols>
-        <IncludeSource>true</IncludeSource>-->
-
-        
+        <IncludeSource>true</IncludeSource>
     </PropertyGroup>
 
-    <!-- <ItemGroup>
+    <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)logo.png" Pack="true" Visible="false" PackagePath="" />
-        <Content Include="../README.md" PackagePath="/" />
-    </ItemGroup> -->
-
-    <!-- <ItemGroup>
-        <PackageReference Update="@(PackageReference)" PrivateAssets="All" />
-    </ItemGroup> -->
+        <Content Include="$(MSBuildThisFileDirectory)../README.md" PackagePath="/" />
+    </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.3.0" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.3.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
     </ItemGroup>
 
     <ItemGroup>
-        <!-- <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.3.0" PrivateAssets="all"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" />
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+        <PackageReference Update="@(PackageReference)" PrivateAssets="All" />
+    </ItemGroup>
 
+    <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll"
                 Pack="true"
                 PackagePath="analyzers/dotnet/cs"
                 Visible="false" />
- -->
     </ItemGroup>
-
 
     <ItemGroup>
         <Content Include=".globalconfig" PackagePath="build\" />
         <Content Include="stylecop.json" PackagePath="build\" />
         <Content Include="Roslyn.Extensions.props" PackagePath="build\" />
-        <Content Include="logo.png" PackagePath="build\" />
     </ItemGroup>
-
-
-    <!-- <Target Name="PublishCodeAnalysis" BeforeTargets="GenerateNuspec">
-        <Exec Command="dotnet publish -c $(Configuration)" WorkingDirectory="..\CodeAnalysis" />
-    </Target>
-
-    <Target Name="PackTaskDependencies" AfterTargets="PublishCodeAnalysis">
-        <ItemGroup>
-            <_PackageFiles Include="..\CodeAnalysis\bin\$(Configuration)\netstandard2.0\publish\**\*">
-                <PackagePath>analyzers/dotnet/cs/</PackagePath>
-                <Visible>false</Visible>
-                <BuildAction>Content</BuildAction>
-            </_PackageFiles>
-        </ItemGroup>
-    </Target> -->
 </Project>     
