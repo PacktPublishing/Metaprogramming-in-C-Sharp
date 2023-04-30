@@ -105,6 +105,17 @@ dotnet_diagnostic.CA1000.severity = none
 dotnet_diagnostic.RCS1018.severity = none
 # RCS1194: Implement exception constructors
 dotnet_diagnostic.RCS1194.severity = none
+dotnet_diagnostic.CA1854.severity = none
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1309.severity = none
+dotnet_diagnostic.CA1310.severity = none
+dotnet_diagnostic.SA1000.severity = none
+dotnet_diagnostic.SA1005.severity = none
+dotnet_diagnostic.SA1503.severity = none
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.CA1852.severity = none
+dotnet_diagnostic.SA1313.severity = none
+dotnet_diagnostic.SA1413.severity = none
 
 #### C# Coding Conventions ####
 
