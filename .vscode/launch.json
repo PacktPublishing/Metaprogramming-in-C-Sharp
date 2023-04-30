@@ -5,11 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
             "name": ".NET Core Launch",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Chapter14/bin/Debug/net6.0/Chapter14.dll",
+            "program": "${workspaceFolder}/Chapter14/bin/Debug/net7.0/Chapter14.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Chapter14",
             "stopAtEntry": false,
