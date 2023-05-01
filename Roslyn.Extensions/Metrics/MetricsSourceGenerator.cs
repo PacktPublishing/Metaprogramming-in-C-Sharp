@@ -14,6 +14,12 @@ public class MetricsSourceGenerator : ISourceGenerator
         var counterAttribute = context.Compilation.GetTypeByMetadataName("Fundamentals.Metrics.CounterAttribute`1");
         foreach (var candidate in receiver.Candidates)
         {
+            var templateData = new MetricsTemplateData
+            {
+                Namespace = (candidate.Parent as BaseNamespaceDeclarationSyntax)!.Name.ToString(),
+                ClassName = candidate.Identifier.ValueText
+            };
+
             var semanticModel = context.Compilation.GetSemanticModel(candidate.SyntaxTree);
             foreach (var member in candidate.Members)
             {
@@ -35,13 +41,7 @@ public class MetricsSourceGenerator : ISourceGenerator
                         var type = attribute.AttributeClass!.TypeArguments[0].ToString();
                         var name = attribute.ConstructorArguments[0].Value!.ToString();
                         var description = attribute.ConstructorArguments[1].Value!.ToString();
-
-                        var templateData = new MetricsTemplateData
-                        {
-                            Namespace = (candidate.Parent as BaseNamespaceDeclarationSyntax)!.Name.ToString(),
-                            ClassName = candidate.Identifier.ValueText,
-                            Counters = new[]
-                            {
+                        templateData.Counters.Add(
                                 new CounterTemplateData
                                 {
                                     Name = name,
@@ -49,14 +49,15 @@ public class MetricsSourceGenerator : ISourceGenerator
                                     Type = type,
                                     MethodName = method.Identifier.ValueText,
                                     Tags = tags
-                                }
-                            }
-                        };
-
-                        var source = TemplateTypes.Metrics(templateData);
-                        context.AddSource($"{candidate.Identifier.ValueText}.g.cs", source);
+                                });
                     }
                 }
+            }
+
+            if (templateData.Counters.Count > 0)
+            {
+                var source = TemplateTypes.Metrics(templateData);
+                context.AddSource($"{candidate.Identifier.ValueText}.g.cs", source);
             }
         }
     }
