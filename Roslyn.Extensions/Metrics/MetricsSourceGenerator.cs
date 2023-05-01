@@ -38,8 +38,8 @@ public class MetricsSourceGenerator : ISourceGenerator
 
                         var templateData = new MetricsTemplateData
                         {
-                            Namespace = "ConsoleApp",
-                            ClassName = "ProgramMetrics",
+                            Namespace = (candidate.Parent as BaseNamespaceDeclarationSyntax)!.Name.ToString(),
+                            ClassName = candidate.Identifier.ValueText,
                             Counters = new[]
                             {
                                 new CounterTemplateData

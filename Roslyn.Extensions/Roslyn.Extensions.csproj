@@ -63,6 +63,4 @@
             <TargetPathWithTargetPlatformMoniker Include="$(PKGHandlebars_Net)\lib\netstandard2.0\Handlebars.dll" IncludeRuntimeDependency="false" />
         </ItemGroup>
     </Target>
-
-
 </Project>

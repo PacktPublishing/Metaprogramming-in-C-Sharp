@@ -1,9 +1,12 @@
-﻿namespace ConsoleApp;
+﻿using System.Diagnostics.Metrics;
+using Fundamentals.Metrics;
 
-partial class Program
-{
-    static void Main(string[] args)
-    {
-        ProgramMetrics.Started(42, "Forty Two", "ASomethingElse");
-    }
-}
+GlobalMetrics.Meter = new Meter("Chapter16");
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
+var app = builder.Build();
+app.UseRouting();
+app.MapControllers();
+app.Run();

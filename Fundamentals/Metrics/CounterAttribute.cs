@@ -13,5 +13,3 @@ public sealed class CounterAttribute<T> : Attribute
 
     public string Description { get; }
 }
-
-

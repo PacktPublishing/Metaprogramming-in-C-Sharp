@@ -4,9 +4,6 @@ namespace Roslyn.Extensions.Templates;
 
 public static class TemplateTypes
 {
-    /// <summary>
-    /// The template for a type.
-    /// </summary>
     public static readonly HandlebarsTemplate<object, object> Metrics = Handlebars.Compile(GetTemplate("Metrics"));
 
     static string GetTemplate(string name)

@@ -117,6 +117,8 @@ dotnet_diagnostic.CA1852.severity = none
 dotnet_diagnostic.SA1313.severity = none
 dotnet_diagnostic.SA1413.severity = none
 dotnet_diagnostic.SA1011.severity = none
+dotnet_diagnostic.SA1009.severity = none
+dotnet_diagnostic.CA2211.severity = none
 
 #### C# Coding Conventions ####
 
