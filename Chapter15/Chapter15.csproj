@@ -6,10 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="$(MSBuildThisFileDirectory)../Roslyn/Roslyn.props"/>
+    <Import Project="$(MSBuildThisFileDirectory)../Roslyn.Extensions/Roslyn.Extensions.props"/>
 
     <ItemGroup>
-        <ProjectReference Include="..\Roslyn\Roslyn.csproj" OutputItemType="Analyzer" Private="true"/>
+        <ProjectReference Include="..\Roslyn.Extensions\Roslyn.Extensions.csproj" OutputItemType="Analyzer" Private="true"/>
     </ItemGroup>
 
     <ItemGroup>
