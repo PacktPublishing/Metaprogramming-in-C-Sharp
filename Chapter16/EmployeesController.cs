@@ -7,7 +7,7 @@ namespace Chapter16;
 [Route("/api/employees")]
 public class EmployeesController : Controller
 {
-    static Counter<int> _registeredEmployees = Metrics.Meter.CreateCounter<int>("RegisteredEmployees", "# of registered employees");
+    static readonly Counter<int> _registeredEmployees = Metrics.Meter.CreateCounter<int>("RegisteredEmployees", "# of registered employees");
 
     [HttpGet("manual")]
     public IActionResult RegisterManual()
