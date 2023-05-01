@@ -13,10 +13,7 @@ public static partial class {{ClassName}}
     {{/Counters}}
 
     {{#Counters}}
-    public static partial void {{MethodName}}(
-        {{#Tags}}
-        {{Type}} {{Name}}{{#unless @last}},{{/unless}}
-        {{/Tags}})
+    public static partial void {{MethodName}}({{#Tags}}{{Type}} {{Name}}{{#unless @last}}, {{/unless}}{{/Tags}})
     {
         var tags = new TagList(new ReadOnlySpan<KeyValuePair<string, object?>>(new KeyValuePair<string, object?>[]
         {

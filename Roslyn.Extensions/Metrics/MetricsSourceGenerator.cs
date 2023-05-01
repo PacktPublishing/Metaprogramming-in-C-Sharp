@@ -11,7 +11,6 @@ public class MetricsSourceGenerator : ISourceGenerator
     {
         if (context.SyntaxReceiver is not MetricsSyntaxReceiver receiver) return;
 
-        // while (!System.Diagnostics.Debugger.IsAttached) Thread.Sleep(10);
         var counterAttribute = context.Compilation.GetTypeByMetadataName("Fundamentals.Metrics.CounterAttribute`1");
         foreach (var candidate in receiver.Candidates)
         {
@@ -27,6 +26,13 @@ public class MetricsSourceGenerator : ISourceGenerator
                     var attribute = attributes.FirstOrDefault(_ => SymbolEqualityComparer.Default.Equals(_.AttributeClass?.OriginalDefinition, counterAttribute));
                     if (attribute is not null)
                     {
+                        var tags = method.ParameterList.Parameters.Select(parameter => new CounterTagTemplateData
+                        {
+                            Name = parameter.Identifier.ValueText,
+                            Type = parameter.Type!.ToString()
+                        });
+
+                        var type = attribute.AttributeClass!.TypeArguments[0].ToString();
                         var name = attribute.ConstructorArguments[0].Value!.ToString();
                         var description = attribute.ConstructorArguments[1].Value!.ToString();
 
@@ -40,22 +46,9 @@ public class MetricsSourceGenerator : ISourceGenerator
                                 {
                                     Name = name,
                                     Description = description,
-                                    Type = "int",
+                                    Type = type,
                                     MethodName = method.Identifier.ValueText,
-
-                                    // Tags = new[]
-                                    // {
-                                    //     new CounterTagTemplateData
-                                    //     {
-                                    //         Name = "tag1",
-                                    //         Type = "string"
-                                    //     },
-                                    //     new CounterTagTemplateData
-                                    //     {
-                                    //         Name = "tag2",
-                                    //         Type = "string"
-                                    //     }
-                                    // }
+                                    Tags = tags
                                 }
                             }
                         };
