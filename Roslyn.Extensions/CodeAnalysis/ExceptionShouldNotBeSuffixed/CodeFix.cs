@@ -36,4 +36,6 @@ public class CodeFix : CodeFixProvider
         var newRoot = root.ReplaceNode(node, node.WithIdentifier(SyntaxFactory.Identifier(newName)));
         return document.WithSyntaxRoot(newRoot);
     }
+
+    public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 }
