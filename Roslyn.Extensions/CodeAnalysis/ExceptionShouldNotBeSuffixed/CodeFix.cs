@@ -27,6 +27,8 @@ public class CodeFix : CodeFixProvider
         return Task.CompletedTask;
     }
 
+    public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+
     async Task<Document> RemoveSuffix(Document document, Diagnostic diagnostic, CancellationToken c)
     {
         var root = await document.GetSyntaxRootAsync(c);
@@ -36,6 +38,4 @@ public class CodeFix : CodeFixProvider
         var newRoot = root.ReplaceNode(node, node.WithIdentifier(SyntaxFactory.Identifier(newName)));
         return document.WithSyntaxRoot(newRoot);
     }
-
-    public override FixAllProvider? GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 }
