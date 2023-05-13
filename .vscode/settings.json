@@ -15,6 +15,7 @@
         "Stfld",
         "Stloc",
         "typeparam",
-        "Vtable"
+        "Vtable",
+        "Xunit"
     ]
 }

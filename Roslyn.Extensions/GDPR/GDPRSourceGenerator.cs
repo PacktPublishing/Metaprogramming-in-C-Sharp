@@ -10,7 +10,7 @@ public class GDPRSourceGenerator : ISourceGenerator
     {
         if (context.SyntaxReceiver is not GDPRSyntaxReceiver receiver) return;
 
-        context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.GDPRReport", out var filename);
+        if (!context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.GDPRReport", out var filename)) return;
 
         var writer = File.CreateText(filename);
         writer.AutoFlush = true;

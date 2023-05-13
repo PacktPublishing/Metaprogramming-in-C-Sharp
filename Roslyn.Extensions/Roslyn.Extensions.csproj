@@ -37,6 +37,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="4.5.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.5.0" PrivateAssets="all" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
     </ItemGroup>
 
@@ -63,4 +64,9 @@
             <TargetPathWithTargetPlatformMoniker Include="$(PKGHandlebars_Net)\lib\netstandard2.0\Handlebars.dll" IncludeRuntimeDependency="false" />
         </ItemGroup>
     </Target>
+
+    <ItemGroup>
+        <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+        <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+    </ItemGroup>    
 </Project>
