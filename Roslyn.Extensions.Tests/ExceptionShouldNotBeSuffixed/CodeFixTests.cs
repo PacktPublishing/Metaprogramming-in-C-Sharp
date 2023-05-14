@@ -11,13 +11,10 @@ public class CodeFixTests
         const string content = @"
                 using System;
 
-                namespace MyNamespace
+                namespace MyNamespace;
+                public class SomethingWentWrong : Exception
                 {
-                    public class SomethingWentWrong : Exception
-                    {
-
-                    }
-                }       
+                }
             ";
 
         await Verify.VerifyCodeFixAsync(content, content);
@@ -29,16 +26,13 @@ public class CodeFixTests
         const string content = @"
                 using System;
 
-                namespace MyNamespace
+                namespace MyNamespace;
+                public class MyException : Exception
                 {
-                    public class MyException : Exception
-                    {
-
-                    }
-                }       
+                }
             ";
 
-        var expected = Verify.Diagnostic().WithLocation(6, 34).WithArguments("MyException");
+        var expected = Verify.Diagnostic().WithLocation(5, 30).WithArguments("MyException");
         await Verify.VerifyCodeFixAsync(content, expected, content.Replace("MyException", "My"));
     }
 }

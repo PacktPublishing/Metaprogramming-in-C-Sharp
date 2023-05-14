@@ -20,8 +20,7 @@ public class CodeFix : CodeFixProvider
         context.RegisterCodeFix(
             CodeAction.Create(
                 title: "Remove Exception suffix",
-                createChangedDocument: c => RemoveSuffix(context.Document, diagnostic, c),
-                equivalenceKey: nameof(CodeFix)),
+                createChangedDocument: c => RemoveSuffix(context.Document, diagnostic, c)),
             diagnostic);
 
         return Task.CompletedTask;

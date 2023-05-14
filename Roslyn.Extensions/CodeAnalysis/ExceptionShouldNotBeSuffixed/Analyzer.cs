@@ -42,10 +42,9 @@ public class Analyzer : DiagnosticAnalyzer
         var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
         if (classSymbol?.BaseType is null) return;
 
-        var inheritsException = classSymbol.BaseType.ContainingNamespace.Name.StartsWith("System", StringComparison.InvariantCulture) &&
-            classSymbol.BaseType.Name.EndsWith("Exception", StringComparison.InvariantCulture);
-
-        if (inheritsException && classDeclaration.Identifier.Text.EndsWith("Exception", StringComparison.InvariantCulture))
+        var exceptionType = context.Compilation.GetTypeByMetadataName("System.Exception");
+        if (SymbolEqualityComparer.Default.Equals(classSymbol?.BaseType, exceptionType) &&
+            classDeclaration.Identifier.Text.EndsWith("Exception", StringComparison.InvariantCulture))
         {
             var diagnostic = Diagnostic.Create(BrokenRule, classDeclaration.Identifier.GetLocation());
             context.ReportDiagnostic(diagnostic);
