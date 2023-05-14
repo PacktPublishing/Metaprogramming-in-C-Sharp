@@ -11,7 +11,7 @@ public class Analyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "PP0001";
 
-    public static readonly DiagnosticDescriptor Rule = new(
+    public static readonly DiagnosticDescriptor BrokenRule = new(
          id: DiagnosticId,
          title: "ExceptionShouldNotBeSuffixed",
          messageFormat: "The use of the word 'Exception' should not be added as a suffix - create a well understood and self explanatory name for the exception",
@@ -22,7 +22,7 @@ public class Analyzer : DiagnosticAnalyzer
          helpLinkUri: string.Empty,
          customTags: Array.Empty<string>());
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(BrokenRule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -47,7 +47,7 @@ public class Analyzer : DiagnosticAnalyzer
 
         if (inheritsException && classDeclaration.Identifier.Text.EndsWith("Exception", StringComparison.InvariantCulture))
         {
-            var diagnostic = Diagnostic.Create(Rule, classDeclaration.Identifier.GetLocation());
+            var diagnostic = Diagnostic.Create(BrokenRule, classDeclaration.Identifier.GetLocation());
             context.ReportDiagnostic(diagnostic);
         }
     }
