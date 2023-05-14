@@ -7,6 +7,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsTestProject>true</IsTestProject>
     <Nullable>enable</Nullable>
     <NoWarn>$(NoWarn);IDE0065</NoWarn>
   </PropertyGroup>
