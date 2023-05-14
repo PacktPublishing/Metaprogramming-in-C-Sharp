@@ -39,7 +39,13 @@ public class Analyzer : DiagnosticAnalyzer
         var classDeclaration = context.Node as ClassDeclarationSyntax;
         if (classDeclaration?.BaseList == null || classDeclaration?.BaseList?.Types == null) return;
 
-        if (classDeclaration.InheritsASystemException(context.SemanticModel) && classDeclaration.Identifier.Text.EndsWith("Exception", StringComparison.InvariantCulture))
+        var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+        if (classSymbol?.BaseType is null) return;
+
+        var inheritsException = classSymbol.BaseType.ContainingNamespace.Name.StartsWith("System", StringComparison.InvariantCulture) &&
+            classSymbol.BaseType.Name.EndsWith("Exception", StringComparison.InvariantCulture);
+
+        if (inheritsException && classDeclaration.Identifier.Text.EndsWith("Exception", StringComparison.InvariantCulture))
         {
             var diagnostic = Diagnostic.Create(Rule, classDeclaration.Identifier.GetLocation());
             context.ReportDiagnostic(diagnostic);
