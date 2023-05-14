@@ -41,5 +41,4 @@ public class CodeFixTests
         var expected = Verify.Diagnostic().WithLocation(6, 34).WithArguments("MyException");
         await Verify.VerifyCodeFixAsync(content, expected, content.Replace("MyException", "My"));
     }
-
 }
